@@ -1,0 +1,23 @@
+app:
+    image: redmine
+    # restart: always
+    volumes:
+        - '.data/redmine/files:/usr/src/redmine/files/'
+        - '.data/redmine/config/configuration.yml:/usr/src/redmine/config/configuration.yml'
+    ports:
+        - 3000:3000
+    links:
+        - postgres
+    environment:
+      POSTGRES_PORT_5432_TCP: 5432
+      POSTGRES_ENV_POSTGRES_USER: redmine
+      POSTGRES_ENV_POSTGRES_PASSWORD: pswdb
+
+postgres:
+    image: postgres 
+    # restart: always
+    environment:
+        POSTGRES_PASSWORD: pswdb
+        POSTGRES_USER: redmine
+    volumes:
+      - '.data/postgres/:/var/lib/postgresql/data'
